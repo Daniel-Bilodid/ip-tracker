@@ -1,28 +1,54 @@
-import "./style.scss";
 import React, { useState, useEffect } from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import "./style.scss";
+
+import locationIcon from "./assets/icon-location.svg";
+
 function App() {
+  const icon = L.icon({
+    iconUrl: locationIcon,
+    iconSize: [46, 56],
+    iconAnchor: [23, 56],
+    popupAnchor: [0, -56],
+  });
+
   const [data, setData] = useState(null);
   const [ipAddress, setIpAdress] = useState("");
 
   const [request, setRequest] = useState(false);
+  const [center, setCenter] = useState([51.505, -0.09]);
+  const [zoom, setZoom] = useState(13);
 
-  const onSubmit = () => {
-    setRequest(!request);
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setRequest(true);
   };
 
   useEffect(() => {
-    if (request) {
+    if (request && ipAddress) {
       fetch(
         `https://geo.ipify.org/api/v2/country,city?apiKey=at_aModRTcllN4XfvFd4F30XKIGidxmn&ipAddress=${ipAddress}`
       )
         .then((response) => response.json())
         .then((json) => {
           setData(json);
-          console.log(json); // Выводим полученные данные
+          console.log(json);
         })
-        .catch((error) => console.error(error));
+        .catch((error) => console.error(error))
+        .finally(() => {
+          setRequest(false);
+        });
     }
-  }, [request]);
+  }, [request, ipAddress]);
+
+  useEffect(() => {
+    if (data && data.location) {
+      setCenter([data.location.lat, data.location.lng]);
+      setZoom(13);
+    }
+  }, [data]);
 
   return (
     <>
@@ -89,6 +115,31 @@ function App() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="header__map">
+        {" "}
+        <MapContainer
+          key={`${center[0]}-${center[1]}`}
+          center={center}
+          zoom={zoom}
+          style={{ height: "640px" }}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+          {data && data.location && (
+            <Marker
+              icon={icon}
+              position={[data.location.lat, data.location.lng]}
+            >
+              <Popup>
+                A pretty CSS3 popup. <br /> Easily customizable.
+              </Popup>
+            </Marker>
+          )}
+        </MapContainer>
       </div>
     </>
   );

@@ -5,6 +5,7 @@
   height: 280px;
   background: url("./assets/pattern-bg-desktop.png");
   background-repeat: no-repeat;
+  background-size: cover;
 
   &__title {
     width: 282px;
@@ -47,6 +48,7 @@
   }
 }
 .header__result {
+  position: relative;
   width: 1110px;
   height: 161px;
   border-radius: 15px;
@@ -56,6 +58,7 @@
   margin: 0 auto;
   margin-top: 48px;
   display: flex;
+  z-index: 1001;
 
   &-wrapper {
     margin-left: 32px;
@@ -97,4 +100,8 @@
 .location {
   span {
   }
+}
+.header__map {
+  position: relative;
+  z-index: 1000;
 }
