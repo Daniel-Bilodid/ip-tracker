@@ -27,20 +27,18 @@ function App() {
   };
 
   useEffect(() => {
-    if (request && ipAddress) {
-      fetch(
-        `https://geo.ipify.org/api/v2/country,city?apiKey=at_aModRTcllN4XfvFd4F30XKIGidxmn&ipAddress=${ipAddress}`
-      )
-        .then((response) => response.json())
-        .then((json) => {
-          setData(json);
-          console.log(json);
-        })
-        .catch((error) => console.error(error))
-        .finally(() => {
-          setRequest(false);
-        });
-    }
+    fetch(
+      `https://geo.ipify.org/api/v2/country,city?apiKey=at_aModRTcllN4XfvFd4F30XKIGidxmn&ipAddress=${ipAddress}`
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        setData(json);
+        console.log(json);
+      })
+      .catch((error) => console.error(error))
+      .finally(() => {
+        setRequest(false);
+      });
   }, [request, ipAddress]);
 
   useEffect(() => {
