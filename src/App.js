@@ -50,8 +50,8 @@ function App() {
 
   return (
     <>
-      <div className="header">
-        <div className="header__title">IP Ardess Tracker</div>
+      <header className="header">
+        <h1 className="header__title">IP Ardess Tracker</h1>
 
         <div className="header__input">
           <input
@@ -113,9 +113,9 @@ function App() {
             </div>
           </div>
         </div>
-      </div>
+      </header>
 
-      <div className="header__map">
+      <main className="header__map">
         {" "}
         <MapContainer
           key={`${center[0]}-${center[1]}`}
@@ -138,7 +138,7 @@ function App() {
             </Marker>
           )}
         </MapContainer>
-      </div>
+      </main>
     </>
   );
 }
