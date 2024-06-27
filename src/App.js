@@ -51,7 +51,7 @@ function App() {
   return (
     <>
       <header className="header">
-        <h1 className="header__title">IP Ardess Tracker</h1>
+        <h1 className="header__title">IP Address Tracker</h1>
 
         <div className="header__input">
           <input
